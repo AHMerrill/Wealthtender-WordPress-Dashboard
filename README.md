@@ -4,6 +4,8 @@ A WordPress admin plugin that gives Wealthtender an interactive analytics dashbo
 
 This repo contains everything needed to run the dashboard locally or deploy it to the Wealthtender production WordPress site.
 
+**[Download ZIP](https://github.com/AHMerrill/Wealthtender-WordPress-Dashboard/archive/refs/heads/main.zip)**
+
 ## Quick Start (Local Dev)
 
 Prerequisites: Docker Desktop.
