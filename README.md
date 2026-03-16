@@ -243,4 +243,4 @@ Credentials: `wordpress` / `wordpress` for both MySQL and WP database config.
 
 ## License
 
-GPL v2 or later. See `LICENSE`.
+Apache 2.0. See `LICENSE` and `NOTICE`.

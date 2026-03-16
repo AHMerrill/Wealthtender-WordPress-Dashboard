@@ -6,7 +6,7 @@
  * Version: 1.0.0
  * Author: Wealthtender
  * Author URI: https://wealthtender.io
- * License: GPL v2 or later
+ * License: Apache-2.0
  * Text Domain: wealthtender-analytics
  * Domain Path: /languages
  */
