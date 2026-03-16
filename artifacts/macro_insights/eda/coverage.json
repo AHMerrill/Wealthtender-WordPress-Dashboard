@@ -1,0 +1,8 @@
+{
+  "advisors_total": 332,
+  "pct_advisors_lt3": 0.18072289156626506,
+  "pct_advisors_lt5": 0.24397590361445784,
+  "pct_advisors_lt10": 0.5120481927710844,
+  "median_reviews_per_advisor": 9.0,
+  "p90_reviews_per_advisor": 32.900000000000034
+}

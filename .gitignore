@@ -1,0 +1,31 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+*.egg-info/
+dist/
+build/
+
+# OS
+.DS_Store
+.Rhistory
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Secrets / local-only
+.env
+wt_dash_secrets.txt
+
+# Pipeline intermediate files (large, regenerable)
+data/intermediate/
+
+# Raw data (sensitive, not committed — provide your own CSV)
+data/raw/*.csv
+
+# Brand source files (keep assets/ for Docker mount)
+Brandbook/brandbook.py
+Brandbook/brandbook.slim.json
