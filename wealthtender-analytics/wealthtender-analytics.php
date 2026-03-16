@@ -55,6 +55,49 @@ require_once WEALTHTENDER_ANALYTICS_INCLUDES . 'roles.php';
 require_once WEALTHTENDER_ANALYTICS_INCLUDES . 'rest-api.php';
 
 /**
+ * Show admin notice if artifact data files are missing
+ */
+add_action( 'admin_notices', 'wt_check_artifacts' );
+function wt_check_artifacts() {
+	// Only show on WT pages or plugins page
+	$screen = get_current_screen();
+	if ( ! $screen ) {
+		return;
+	}
+
+	$is_wt_page   = strpos( $screen->id, 'wt-analytics' ) !== false;
+	$is_plugins    = $screen->id === 'plugins';
+
+	if ( ! $is_wt_page && ! $is_plugins ) {
+		return;
+	}
+
+	$artifacts_path = WEALTHTENDER_ANALYTICS_DIR . 'data/artifacts/';
+	$required_files = array(
+		'scoring/review_dimension_scores.csv',
+		'macro_insights/reviews_clean.csv',
+		'metadata.json',
+	);
+
+	$missing = array();
+	foreach ( $required_files as $file ) {
+		if ( ! file_exists( $artifacts_path . $file ) ) {
+			$missing[] = $file;
+		}
+	}
+
+	if ( ! empty( $missing ) ) {
+		$path = esc_html( $artifacts_path );
+		echo '<div class="notice notice-error"><p>';
+		echo '<strong>Wealthtender Analytics:</strong> Data artifacts not found. ';
+		echo 'The dashboard needs scored CSV files to display. ';
+		echo 'Please copy your pipeline output to <code>' . $path . '</code>';
+		echo '</p><p>Missing: <code>' . esc_html( implode( '</code>, <code>', $missing ) ) . '</code></p>';
+		echo '</div>';
+	}
+}
+
+/**
  * Register admin menus
  */
 add_action( 'admin_menu', 'wt_register_admin_menus' );
