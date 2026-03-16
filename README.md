@@ -70,7 +70,7 @@ wt-msba-wp-plugin/
 ├── Brandbook/assets/            # SVG logos and brand images for the navbar
 ├── docker-compose.yml           # Local dev: WordPress 6.4 + MySQL 8.0
 ├── requirements-pipeline.txt    # Python deps for the NLP pipeline
-├── LICENSE                      # GPL v2
+├── LICENSE                      # Apache 2.0
 └── NOTICE                       # Team attribution
 ```
 
