@@ -791,6 +791,7 @@ const DIM_FIELD_MAP = {
     'responsiveness_availability': 'sim_responsiveness_availability',
     'life_event_support': 'sim_life_event_support',
     'investment_expertise': 'sim_investment_expertise',
+    'outcomes_results': 'sim_outcomes_results',
 };
 
 /**
@@ -803,6 +804,7 @@ const SHORT_TO_FULL_DIM = {
     'responsiveness': 'responsiveness_availability',
     'life_events': 'life_event_support',
     'investment_expertise': 'investment_expertise',
+    'outcomes_results': 'outcomes_results',
 };
 
 /**

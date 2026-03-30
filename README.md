@@ -48,6 +48,7 @@ wt-msba-wp-plugin/
 │       ├── js/wt-leaderboard.js     # Leaderboard page logic
 │       ├── js/wt-comparisons.js     # Comparisons page logic
 │       ├── js/wt-team-comparisons.js # Team Comparisons page logic
+│       ├── js/wt-all-reviews.js      # All Reviews page logic
 │       ├── js/wt-methodology.js     # Methodology page logic
 │       ├── js/wt-splash.js          # Home/splash page logic
 │       └── pages/*.php              # Page templates (one per tab)
@@ -137,13 +138,14 @@ All endpoints live under `wp-json/wt/v1/` and require an authenticated WordPress
 | `GET /comparisons/partner-group/{code}` | Members of one partner group |
 | `GET /comparisons/entities` | Multi-entity comparison |
 | `GET /comparisons/head-to-head` | Two-entity detailed comparison |
+| `GET /reviews/all` | Paginated list of all scored reviews (offset/limit) |
 
 ### Role-Based Access
 
 The plugin defines two roles:
 
 - **Admin** (`wt_admin_access`): Full access to all pages. WordPress administrators get this automatically.
-- **Firm** (`wt_firm_access`): Restricted to Advisor DNA, Benchmarks, Leaderboard, Comparisons, and Team Comparisons. No access to EDA or raw review data.
+- **Firm** (`wt_firm_access`): Restricted to Advisor DNA, Benchmarks, Leaderboard, Comparisons, and Team Comparisons. No access to EDA, All Reviews, or raw review data.
 
 To give a Wealthtender client firm access: create a WordPress user, assign them the "Firm Portal User" role (created on plugin activation), and they'll see the restricted dashboard when they log in.
 
@@ -180,6 +182,7 @@ Key shared utilities in `wt-common.js`:
 |---|---|
 | **Home** | Welcome splash with KPI cards |
 | **EDA** | Exploratory data analysis — rating distributions, token-length scatter, n-gram frequency, time series. Uses `reviews_clean.csv` (all reviews, including unscored). |
+| **All Reviews** | Browse every scored review with paginated list, spider chart, cosine similarity scores, and always-visible canonical dimension query reference panel. |
 | **Advisor DNA** | Per-entity deep dive — dimension radar charts, review-level scatter plots, score tables. Uses `review_dimension_scores.csv` (scored reviews only). |
 | **Benchmarks** | Pool-level score distributions — violin/box plots per dimension, filterable by method, entity type, and pool. |
 | **Leaderboard** | Top-N ranked bar chart with click-to-compare. Select up to two entities for side-by-side radar + table. |
@@ -200,7 +203,7 @@ Pipeline stages:
 
 1. **clean.py** — Deduplicates reviews, strips boilerplate/prompt text, filters by token count, removes test accounts.
 2. **embed.py** — Generates sentence embeddings using `all-MiniLM-L6-v2` (384-dim). Also generates per-entity weighted average embeddings.
-3. **score.py** — Computes cosine similarity between each review embedding and six dimension query embeddings. Produces `review_dimension_scores.csv` and entity-level aggregates.
+3. **score.py** — Computes cosine similarity between each review embedding and seven dimension query embeddings. Produces `review_dimension_scores.csv` and entity-level aggregates.
 4. **enrich_comparisons.py** — Builds partner-group comparison artifacts and enriched entity scores.
 
 Output lands in `artifacts/`. The Docker Compose file mounts this directory into the plugin's `data/artifacts/` path.
@@ -215,7 +218,7 @@ When Wealthtender has new reviews:
 
 No WordPress restart needed — the plugin reads CSVs fresh on each API request (with PHP `static` caching within a single request lifecycle).
 
-## Six Scoring Dimensions
+## Seven Scoring Dimensions
 
 | Key | Label | What It Measures |
 |---|---|---|
@@ -225,6 +228,7 @@ No WordPress restart needed — the plugin reads CSVs fresh on each API request 
 | `responsiveness_availability` | Responsiveness | Accessibility, prompt replies, availability |
 | `life_event_support` | Life Event Support | Guidance through retirement, loss, transitions |
 | `investment_expertise` | Investment Expertise | Technical skill, market knowledge, credentials |
+| `outcomes_results` | Outcomes & Results | Tangible results, measurable progress toward financial goals |
 
 Each review gets a 0–1 cosine-similarity score per dimension. Entity scores are aggregated via mean, penalized-mean, or weighted-mean methods. Percentiles and tiers are computed relative to the full pool. See `METHODOLOGY.md` for the full analytical methodology.
 

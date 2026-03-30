@@ -33,7 +33,7 @@ $brand_url = WEALTHTENDER_ANALYTICS_URL . 'data/brand/';
 		<p class="wt-splash-description">
 			<?php
 			esc_html_e(
-				'Transform client feedback into actionable intelligence. Understand your advisory practice through the lens of six core dimensions that drive client satisfaction and loyalty.',
+				'Transform client feedback into actionable intelligence. Understand your advisory practice through the lens of seven core dimensions that drive client satisfaction and loyalty.',
 				'wealthtender-analytics'
 			);
 			?>
@@ -49,6 +49,12 @@ $brand_url = WEALTHTENDER_ANALYTICS_URL . 'data/brand/';
 				'title'       => __( 'Exploratory Data Analysis', 'wealthtender-analytics' ),
 				'description' => __( 'Explore review text patterns, sentiment, and temporal trends.', 'wealthtender-analytics' ),
 				'icon'        => 'chart',
+			],
+			[
+				'id'          => 'all-reviews',
+				'title'       => __( 'All Reviews', 'wealthtender-analytics' ),
+				'description' => __( 'Browse every review with dimension scores, spider charts, and canonical query references.', 'wealthtender-analytics' ),
+				'icon'        => 'reviews',
 			],
 			[
 				'id'          => 'advisor-dna',
@@ -73,6 +79,12 @@ $brand_url = WEALTHTENDER_ANALYTICS_URL . 'data/brand/';
 				'title'       => __( 'Comparisons', 'wealthtender-analytics' ),
 				'description' => __( 'Compare two entities or team members head-to-head.', 'wealthtender-analytics' ),
 				'icon'        => 'compare',
+			],
+			[
+				'id'          => 'team-comparisons',
+				'title'       => __( 'Team Comparisons', 'wealthtender-analytics' ),
+				'description' => __( 'Compare dimension profiles across team members within a firm.', 'wealthtender-analytics' ),
+				'icon'        => 'team',
 			],
 			[
 				'id'          => 'methodology',

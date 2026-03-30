@@ -126,6 +126,7 @@ function wt_register_admin_menus() {
 	$pages = [
 		'splash' => 'Home',
 		'eda' => 'EDA',
+		'all-reviews' => 'All Reviews',
 		'advisor-dna' => 'Advisor DNA',
 		'benchmarks' => 'Benchmarks',
 		'leaderboard' => 'Leaderboard',
@@ -204,6 +205,7 @@ function wt_render_navbar( $current_slug ) {
 	$nav_items = [
 		'home'              => [ 'label' => 'Home',        'slug' => 'splash' ],
 		'eda'               => [ 'label' => 'EDA',          'slug' => 'eda' ],
+		'all-reviews'       => [ 'label' => 'All Reviews',   'slug' => 'all-reviews' ],
 		'advisor-dna'       => [ 'label' => 'Advisor DNA',  'slug' => 'advisor-dna' ],
 		'benchmarks'        => [ 'label' => 'Benchmarks',   'slug' => 'benchmarks' ],
 		'leaderboard'       => [ 'label' => 'Leaderboard',  'slug' => 'leaderboard' ],
@@ -357,6 +359,7 @@ function wt_enqueue_admin_assets( $hook ) {
 		'leaderboard'       => 'wt-leaderboard.js',
 		'comparisons'       => 'wt-comparisons.js',
 		'team-comparisons'  => 'wt-team-comparisons.js',
+		'all-reviews'       => 'wt-all-reviews.js',
 		'methodology'       => 'wt-methodology.js',
 	];
 

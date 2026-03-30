@@ -660,6 +660,60 @@ class WTArtifactStore {
 	}
 
 	/**
+	 * Return a paginated list of reviews for the All Reviews browse panel.
+	 *
+	 * @param int $offset Starting index (0-based).
+	 * @param int $limit  Number of reviews to return.
+	 * @return array {items: array, total: int, offset: int, limit: int}
+	 */
+	public function all_reviews_list( $offset = 0, $limit = 10 ) {
+		$all_rows = $this->load_review_dim_scores();
+		$total    = count( $all_rows );
+
+		// Build a lookup from reviews_clean for reviewer_name and review_date.
+		// The two CSVs use different ID systems (review_idx vs WordPress post ID),
+		// so we match on advisor_id + first 80 chars of review_text_raw.
+		$clean_rows = $this->load_reviews_clean();
+		$clean_lookup = [];
+		foreach ( $clean_rows as $cr ) {
+			$aid  = isset( $cr['advisor_id'] ) ? trim( $cr['advisor_id'] ) : '';
+			$text = isset( $cr['review_text_raw'] ) ? substr( trim( $cr['review_text_raw'] ), 0, 80 ) : '';
+			if ( $aid && $text ) {
+				$clean_lookup[ $aid . '|' . $text ] = $cr;
+			}
+		}
+
+		// Sort by review_idx ascending (review_idx 0 = newest in the pipeline output)
+		usort( $all_rows, function ( $a, $b ) {
+			return (int) $a['review_idx'] - (int) $b['review_idx'];
+		} );
+
+		// Lightweight projection — only send what the list panel needs
+		$slim = [];
+		foreach ( array_slice( $all_rows, $offset, $limit ) as $row ) {
+			$idx  = isset( $row['review_idx'] ) ? (int) $row['review_idx'] : null;
+			$aid  = isset( $row['advisor_id'] ) ? trim( $row['advisor_id'] ) : '';
+			$text = isset( $row['review_text_raw'] ) ? substr( trim( $row['review_text_raw'] ), 0, 80 ) : '';
+			$key  = $aid . '|' . $text;
+			$clean = isset( $clean_lookup[ $key ] ) ? $clean_lookup[ $key ] : [];
+
+			$slim[] = [
+				'review_idx'    => $idx,
+				'advisor_name'  => $row['advisor_name'] ?? '',
+				'reviewer_name' => ! empty( $clean['reviewer_name'] ) ? $clean['reviewer_name'] : null,
+				'review_date'   => ! empty( $clean['review_date'] ) ? $clean['review_date'] : null,
+			];
+		}
+
+		return [
+			'items'  => $slim,
+			'total'  => $total,
+			'offset' => $offset,
+			'limit'  => $limit,
+		];
+	}
+
+	/**
 	 * Enrich scores with percentiles, normalization, and tiers
 	 *
 	 * @param string $entity_id Entity identifier

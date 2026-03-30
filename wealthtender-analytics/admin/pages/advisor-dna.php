@@ -125,6 +125,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 					'description' => __( 'Technical proficiency, asset allocation, tax strategies', 'wealthtender-analytics' ),
 					'canonical'   => __( 'I have total confidence in their technical proficiency, investment pedigree, and deep market knowledge. They are a savvy, highly skilled professional with the credentials and expertise to navigate complex asset allocations, tax strategies, and market cycles. Their competence and strategic insight ensure my portfolio is well-positioned for long-term growth, wealth preservation, and solid returns that meet or exceed my financial expectations.', 'wealthtender-analytics' ),
 				],
+				[
+					'key'         => 'outcomes_results',
+					'name'        => __( 'Outcomes & Results', 'wealthtender-analytics' ),
+					'description' => __( 'Tangible results and measurable progress toward real-world financial goals', 'wealthtender-analytics' ),
+					'canonical'   => __( 'My advisor has delivered tangible results and measurable progress toward my real-world goals, ensuring I have achieved milestones like becoming debt-free, funding a college education, or reaching retirement readiness. They have successfully implemented my tax strategies, finalized estate documents, and consolidated my accounts, demonstrating the follow-through and execution needed to advance my financial plan, avoid costly mistakes, and effectively course-correct when the market or my life changed.', 'wealthtender-analytics' ),
+				],
 			];
 
 			foreach ( $dimensions as $dim ) {

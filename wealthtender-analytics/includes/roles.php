@@ -23,7 +23,7 @@ function wt_get_role_config( $role ) {
 	$roles = [
 		'admin' => [
 			'label'            => 'Wealthtender Admin',
-			'pages'            => [ 'splash', 'eda', 'advisor-dna', 'benchmarks', 'leaderboard', 'comparisons', 'team-comparisons', 'methodology' ],
+			'pages'            => [ 'splash', 'eda', 'advisor-dna', 'benchmarks', 'leaderboard', 'comparisons', 'team-comparisons', 'all-reviews', 'methodology' ],
 			'show_firm_picker' => true,
 			'firm_locked'      => false,
 		],

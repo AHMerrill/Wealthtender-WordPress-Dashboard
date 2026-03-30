@@ -112,7 +112,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 				</ul>
 				<h4><?php esc_html_e( 'Stage 3: Score', 'wealthtender-analytics' ); ?></h4>
 				<ul>
-					<li><?php esc_html_e( 'Cosine similarity computation against 6 dimension query vectors', 'wealthtender-analytics' ); ?></li>
+					<li><?php esc_html_e( 'Cosine similarity computation against 7 dimension query vectors', 'wealthtender-analytics' ); ?></li>
 					<li><?php esc_html_e( 'Advisor-level aggregation using mean, penalized, or weighted methods', 'wealthtender-analytics' ); ?></li>
 					<li><?php esc_html_e( 'Percentile ranking and tier assignment against peer groups', 'wealthtender-analytics' ); ?></li>
 				</ul>
@@ -121,9 +121,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 		<!-- 4. THE SIX DIMENSIONS -->
 		<div class="wt-methodology-section">
-			<h3 class="wt-section-header" data-section="six-dimensions">
+			<h3 class="wt-section-header" data-section="seven-dimensions">
 				<span class="wt-section-icon">+</span>
-				<?php esc_html_e( 'The Six Dimensions', 'wealthtender-analytics' ); ?>
+				<?php esc_html_e( 'The Seven Dimensions', 'wealthtender-analytics' ); ?>
 			</h3>
 			<div class="wt-section-content" style="display: none;">
 				<table class="wt-dimensions-table">
@@ -157,6 +157,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 						<tr>
 							<td><strong><?php esc_html_e( 'Investment Expertise', 'wealthtender-analytics' ); ?></strong></td>
 							<td><?php esc_html_e( 'Demonstrates technical proficiency, strong asset allocation skills, and tax strategy knowledge.', 'wealthtender-analytics' ); ?></td>
+						</tr>
+						<tr>
+							<td><strong><?php esc_html_e( 'Outcomes & Results', 'wealthtender-analytics' ); ?></strong></td>
+							<td><?php esc_html_e( 'Tangible results and measurable progress toward real-world financial goals.', 'wealthtender-analytics' ); ?></td>
 						</tr>
 					</tbody>
 				</table>
@@ -241,7 +245,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 					<li><strong><?php esc_html_e( 'Raw Text:', 'wealthtender-analytics' ); ?></strong> <?php esc_html_e( 'Client submits a written review through the review platform.', 'wealthtender-analytics' ); ?></li>
 					<li><strong><?php esc_html_e( 'Cleaned:', 'wealthtender-analytics' ); ?></strong> <?php esc_html_e( 'Text is normalized, boilerplate removed, invalid reviews filtered out.', 'wealthtender-analytics' ); ?></li>
 					<li><strong><?php esc_html_e( 'Embedded:', 'wealthtender-analytics' ); ?></strong> <?php esc_html_e( 'Cleaned text is converted to 384-dimensional embedding using all-MiniLM-L6-v2.', 'wealthtender-analytics' ); ?></li>
-					<li><strong><?php esc_html_e( 'Scored per Dimension:', 'wealthtender-analytics' ); ?></strong> <?php esc_html_e( 'Cosine similarity computed against each of the 6 dimension query vectors.', 'wealthtender-analytics' ); ?></li>
+					<li><strong><?php esc_html_e( 'Scored per Dimension:', 'wealthtender-analytics' ); ?></strong> <?php esc_html_e( 'Cosine similarity computed against each of the 7 dimension query vectors.', 'wealthtender-analytics' ); ?></li>
 					<li><strong><?php esc_html_e( 'Aggregated:', 'wealthtender-analytics' ); ?></strong> <?php esc_html_e( 'Review scores combined with advisor\'s other reviews using mean/penalized/weighted method.', 'wealthtender-analytics' ); ?></li>
 					<li><strong><?php esc_html_e( 'Enriched:', 'wealthtender-analytics' ); ?></strong> <?php esc_html_e( 'Advisor scores enriched with percentiles and tier labels based on peer comparisons.', 'wealthtender-analytics' ); ?></li>
 					<li><strong><?php esc_html_e( 'Visualized:', 'wealthtender-analytics' ); ?></strong> <?php esc_html_e( 'Results rendered in the WordPress dashboard as spider charts, bar charts, and tables.', 'wealthtender-analytics' ); ?></li>

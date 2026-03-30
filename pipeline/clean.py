@@ -193,8 +193,13 @@ def run(raw_csv=None):
     df["review_text_clean"] = df["review_text_clean"].str.replace(r"\s+", " ", regex=True).str.strip()
 
     # 9) Normalize exaggerated punctuation + stretched letters (light-touch)
-    df["review_text_clean"] = df["review_text_clean"].str.replace(r"([!?.,])\1{2,}", r"\1", regex=True)
-    df["review_text_clean"] = df["review_text_clean"].str.replace(r"(.)\1{3,}", r"\1\1", regex=True)
+    #    Use Python re engine (not PyArrow) so backreferences (\1) work.
+    df["review_text_clean"] = df["review_text_clean"].apply(
+        lambda s: re.sub(r"([!?.,])\1{2,}", r"\1", s) if isinstance(s, str) else s
+    )
+    df["review_text_clean"] = df["review_text_clean"].apply(
+        lambda s: re.sub(r"(.)\1{3,}", r"\1\1", s) if isinstance(s, str) else s
+    )
 
     # 10) Lowercase for consistency
     df["review_text_clean"] = df["review_text_clean"].str.lower()

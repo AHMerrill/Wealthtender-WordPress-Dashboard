@@ -184,6 +184,27 @@ function wt_register_rest_routes() {
 		)
 	);
 
+	// GET /wt/v1/reviews/all
+	register_rest_route(
+		'wt/v1',
+		'/reviews/all',
+		array(
+			'methods'             => 'GET',
+			'callback'            => 'wt_rest_reviews_all',
+			'permission_callback' => 'wt_rest_check_permission',
+			'args'                => array(
+				'offset' => array(
+					'type'    => 'integer',
+					'default' => 0,
+				),
+				'limit'  => array(
+					'type'    => 'integer',
+					'default' => 10,
+				),
+			),
+		)
+	);
+
 	// GET /wt/v1/advisor-dna/review/(?P<review_idx>\d+)
 	register_rest_route(
 		'wt/v1',
@@ -481,6 +502,25 @@ function wt_rest_stopwords( WP_REST_Request $request ) {
 		return new WP_REST_Response( $stopwords, 200 );
 	} catch ( Exception $e ) {
 		return new WP_Error( 'stopwords_error', $e->getMessage(), array( 'status' => 500 ) );
+	}
+}
+
+/**
+ * Paginated reviews list endpoint callback
+ */
+function wt_rest_reviews_all( WP_REST_Request $request ) {
+	try {
+		$store = wt_get_artifact_store();
+		if ( ! $store ) {
+			return new WP_Error( 'artifact_store_error', 'Artifact store not available', array( 'status' => 500 ) );
+		}
+
+		$offset = max( 0, (int) $request->get_param( 'offset' ) );
+		$limit  = min( 100, max( 1, (int) $request->get_param( 'limit' ) ) );
+		$result = $store->all_reviews_list( $offset, $limit );
+		return new WP_REST_Response( $result, 200 );
+	} catch ( Exception $e ) {
+		return new WP_Error( 'reviews_all_error', $e->getMessage(), array( 'status' => 500 ) );
 	}
 }
 
