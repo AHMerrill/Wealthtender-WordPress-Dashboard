@@ -26,6 +26,10 @@ data/intermediate/
 # Raw data (sensitive, not committed — provide your own CSV)
 data/raw/*.csv
 
+# Large notebook data files (keep .ipynb notebooks)
+notebooks/archive/collaborator/*.csv
+notebooks/archive/collaborator/*.parquet
+
 # Brand source files (keep assets/ for Docker mount)
 Brandbook/brandbook.py
 Brandbook/brandbook.slim.json

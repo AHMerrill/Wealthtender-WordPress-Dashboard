@@ -70,6 +70,10 @@ wt-msba-wp-plugin/
 │   ├── raw/                         # Your input CSV (gitignored)
 │   └── intermediate/                # Embeddings, parquet files (gitignored)
 │
+├── notebooks/                   # Source collaborator notebooks (reference only)
+│   ├── Embeddings+Scoring.ipynb     # Current canonical queries + scoring reference
+│   └── archive/                     # Superseded / earlier notebooks
+│
 ├── Brandbook/assets/            # SVG logos and brand images for the navbar
 ├── docker-compose.yml           # Local dev: WordPress 6.4 + MySQL 8.0
 ├── requirements-pipeline.txt    # Python deps for the NLP pipeline

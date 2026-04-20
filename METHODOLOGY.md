@@ -1,10 +1,10 @@
 # Scoring Methodology
 
-This document explains the NLP pipeline that transforms raw Wealthtender advisor reviews into the six-dimensional scores powering the analytics dashboard.
+This document explains the NLP pipeline that transforms raw Wealthtender advisor reviews into the seven-dimensional scores powering the analytics dashboard.
 
 ## Overview
 
-The system uses sentence-transformer embeddings and cosine similarity to score free-text reviews against six expert-authored dimension queries. Each review receives a 0–1 similarity score per dimension — no fine-tuning, no labeled training data, no LLM inference at query time. The scores are computed in batch by the Python pipeline and served as static CSV artifacts.
+The system uses sentence-transformer embeddings and cosine similarity to score free-text reviews against seven expert-authored dimension queries. Each review receives a 0–1 similarity score per dimension — no fine-tuning, no labeled training data, no LLM inference at query time. The scores are computed in batch by the Python pipeline and served as static CSV artifacts.
 
 ## Pipeline Stages
 
@@ -31,7 +31,7 @@ Output: Intermediate parquet files in `data/intermediate/` (gitignored, regenera
 
 ### 3. Scoring (`pipeline/score.py`)
 
-Six dimension queries (see below) are embedded using the same model. Each review's embedding is compared to each query embedding via **cosine similarity**, producing a score between 0 and 1.
+Seven dimension queries (see below) are embedded using the same model. Each review's embedding is compared to each query embedding via **cosine similarity**, producing a score between 0 and 1.
 
 Higher scores mean the review's language is more semantically aligned with that dimension's description. A review praising an advisor's transparency and honesty will score high on `trust_integrity`; one describing prompt email responses will score high on `responsiveness_availability`.
 
@@ -49,30 +49,33 @@ Adds percentile rankings, tier labels, and partner-group comparison artifacts:
 
 - **Percentiles**: Each entity's score is ranked against the full pool to produce a 0–100 percentile per dimension.
 - **Tiers**: Percentile-based labels — "Outstanding" (90th+), "Excellent" (75th–89th), "Strong" (50th–74th), "Developing" (25th–49th), "Emerging" (below 25th).
-- **Composite score**: Weighted average across all six dimensions, also percentile-ranked.
+- **Composite score**: Weighted average across all seven dimensions, also percentile-ranked.
 - **Partner groups**: Pre-defined groupings of entities (e.g., by network affiliation) for group-level comparison views.
 
-## The Six Dimensions
+## The Seven Dimensions
 
-Each dimension is defined by an expert-authored query paragraph that describes the ideal advisor behavior for that trait. The full query texts are in `pipeline/config.py`. Summary:
+Each dimension is defined by a concise expert-authored query (two to three sentences, ~30–45 words) that describes the ideal client experience for that trait. Shorter, tighter queries produce cleaner semantic matches against the short, focused language clients actually use in reviews. The full query texts are in `pipeline/config.py` (and mirrored in `wealthtender-analytics/includes/constants.php` as `wt_get_dim_query_texts()` for display). Summary:
 
 ### Trust & Integrity (`trust_integrity`)
-Fiduciary duty, honesty, transparency about fees and conflicts of interest, ethical character.
+Fiduciary duty, honesty, transparency about fees, ethical integrity.
 
 ### Customer Empathy & Personalization (`listening_personalization`)
-Active listening, understanding unique goals and risk tolerance, tailored plans, making clients feel valued.
+Active listening, understanding personal goals, a customized and personalized roadmap instead of a generic approach.
 
 ### Communication Clarity (`communication_clarity`)
-Explaining complex concepts in plain language, providing regular updates, educating clients on the rationale behind decisions.
+Explaining complex concepts clearly without jargon, full logic and rationale behind every recommendation.
 
 ### Responsiveness (`responsiveness_availability`)
-Prompt replies, accessibility, availability during volatility or personal crises, attentive service.
+Exceptional customer service, accessibility, prompt calls/emails, fast support on urgent questions.
 
 ### Life Event Support (`life_event_support`)
-Compassionate guidance through retirement, career changes, inheritance, loss — the human side of financial planning.
+Compassion, empathy, and emotional support through major transitions like divorce, college, and loss.
 
 ### Investment Expertise (`investment_expertise`)
-Technical proficiency, market knowledge, credentials, strategic asset allocation, tax-aware planning.
+Confidence in market knowledge, technical expertise, and skilled investment strategy that navigates asset allocation and risk.
+
+### Outcomes & Results (`outcomes_results`)
+Tangible results and delivery on the milestones and life goals clients hired them for.
 
 ## Why Cosine Similarity?
 
@@ -121,6 +124,7 @@ Reviews that passed quality thresholds, with dimension scores.
 | `responsiveness_availability` | 0–1 cosine similarity score |
 | `life_event_support` | 0–1 cosine similarity score |
 | `investment_expertise` | 0–1 cosine similarity score |
+| `outcomes_results` | 0–1 cosine similarity score |
 
 ## Reproducing Results
 
