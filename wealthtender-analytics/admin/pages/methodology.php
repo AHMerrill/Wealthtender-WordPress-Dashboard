@@ -185,9 +185,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 				</p>
 				<h4><?php esc_html_e( 'Aggregation Methods', 'wealthtender-analytics' ); ?></h4>
 				<ul>
-					<li><strong><?php esc_html_e( 'Mean:', 'wealthtender-analytics' ); ?></strong> <?php esc_html_e( 'Simple average of all review scores for the dimension.', 'wealthtender-analytics' ); ?></li>
-					<li><strong><?php esc_html_e( 'Penalized:', 'wealthtender-analytics' ); ?></strong> <?php esc_html_e( 'Reduces score if review count is low (penalizes low-review advisors).', 'wealthtender-analytics' ); ?></li>
-					<li><strong><?php esc_html_e( 'Weighted:', 'wealthtender-analytics' ); ?></strong> <?php esc_html_e( 'Weights reviews by recency and length, emphasizing substantive recent feedback.', 'wealthtender-analytics' ); ?></li>
+					<li><strong><?php esc_html_e( 'Mean:', 'wealthtender-analytics' ); ?></strong> <?php esc_html_e( 'L2-normalized centroid of all review embeddings for the entity, then dotted against each dimension query. Every review counts equally, with no time adjustment. The unweighted baseline.', 'wealthtender-analytics' ); ?></li>
+					<li><strong><?php esc_html_e( 'Penalized (staleness penalty):', 'wealthtender-analytics' ); ?></strong> <?php esc_html_e( 'The Mean advisor embedding scaled by a single staleness factor derived from the date of the advisor\'s most recent review only: penalty = exp(-lambda * staleness_years), with lambda calibrated so the 75th-percentile-stale advisor receives a 0.7x penalty. Advisors who have gone quiet for years have their entire score shrunk. Think of it as a liveness check.', 'wealthtender-analytics' ); ?></li>
+					<li><strong><?php esc_html_e( 'Weighted (per-review time decay):', 'wealthtender-analytics' ); ?></strong> <?php esc_html_e( 'A separate embedding pass in which every review is weighted individually by its own age, using a 2-year half-life: w = 0.5 ^ (age_years / 2.0). The advisor embedding is the weighted mean of its review embeddings. Every review still contributes, but older ones fade smoothly. A memory-decay model of the advisor\'s current reputation.', 'wealthtender-analytics' ); ?></li>
 				</ul>
 				<h4><?php esc_html_e( 'Percentile Ranking', 'wealthtender-analytics' ); ?></h4>
 				<p>

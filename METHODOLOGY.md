@@ -35,11 +35,11 @@ Seven dimension queries (see below) are embedded using the same model. Each revi
 
 Higher scores mean the review's language is more semantically aligned with that dimension's description. A review praising an advisor's transparency and honesty will score high on `trust_integrity`; one describing prompt email responses will score high on `responsiveness_availability`.
 
-Entity-level scores are aggregated from review-level scores using three methods:
+Entity-level scores are aggregated in `pipeline/embed.py` from review-level embeddings using three methods, each implementing one of the approaches our teammates designed in the source notebooks (`notebooks/archive/NLP_I.ipynb` and `notebooks/archive/Wealthtender_Embeddings_WT.ipynb`):
 
-- **Mean**: Simple average of all review scores for that entity.
-- **Penalized mean**: Mean with a penalty for entities with few reviews, shrinking scores toward the population mean (addresses small-sample noise).
-- **Weighted mean**: Time-weighted average giving more influence to recent reviews.
+- **Mean**: L2-normalized centroid of all review embeddings for the entity, dotted against each dimension query. Every review counts equally — no time adjustment. The unweighted baseline.
+- **Penalized** (staleness penalty, NLP_I.ipynb Approach 1): The Mean advisor embedding is scaled by a single staleness factor derived from the date of the advisor's **most recent review only**: `penalty = exp(−λ · staleness_years)`, where `λ` is calibrated so an advisor at the 75th-percentile staleness receives a 0.7× penalty. Advisors with a fresh review get essentially no penalty; advisors who have gone quiet for years have their entire score shrunk toward zero. A liveness check on the advisor's profile.
+- **Weighted** (per-review time decay, Wealthtender_Embeddings_WT.ipynb Approach 2): A separate embedding pass in which every review is weighted individually by its own age with a 2-year half-life: `w = 0.5 ^ (age_years / 2.0)`. The advisor embedding is the weighted mean of its review embeddings, then dotted against each dimension query. Unlike Penalized, which scales the whole advisor by one number keyed off the newest review, Weighted lets every review contribute proportional to its own age. A memory-decay model of the advisor's current reputation.
 
 Output: `artifacts/scoring/review_dimension_scores.csv` (review-level) and entity-level aggregate files.
 

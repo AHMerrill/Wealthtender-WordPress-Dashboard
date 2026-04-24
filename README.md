@@ -234,7 +234,7 @@ No WordPress restart needed — the plugin reads CSVs fresh on each API request 
 | `investment_expertise` | Investment Expertise | Technical skill, market knowledge, credentials |
 | `outcomes_results` | Outcomes & Results | Tangible results, measurable progress toward financial goals |
 
-Each review gets a 0–1 cosine-similarity score per dimension. Entity scores are aggregated via mean, penalized-mean, or weighted-mean methods. Percentiles and tiers are computed relative to the full pool. See `METHODOLOGY.md` for the full analytical methodology.
+Each review gets a 0–1 cosine-similarity score per dimension. Entity scores are aggregated three ways: **mean** (unweighted baseline), **penalized** (staleness penalty based on the advisor's most recent review), and **weighted** (per-review half-life decay, 2-year half-life). Percentiles and tiers are computed relative to the full pool. See `METHODOLOGY.md` for the full analytical methodology.
 
 ## Docker Compose (Local Dev)
 
